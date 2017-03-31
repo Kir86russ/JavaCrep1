@@ -19,19 +19,21 @@ public class Crep {
         if (byRegex) {
             while (s != null) {
                 if (s.matches(word)) {
-                list.add(s);
-                s = bf.readLine();
+                    list.add(s);
                 }
+                s = bf.readLine();
+
             }
 
 
         }
         else {
             while (s != null){
-                if (word.contains(s)){
-                list.add(s);
-                s = bf.readLine();
+                if (word.contains(s)) {
+                    list.add(s);
                 }
+                s = bf.readLine();
+
             }
         }
 
