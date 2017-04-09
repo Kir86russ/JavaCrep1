@@ -3,6 +3,8 @@ import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Crep {
 
@@ -10,38 +12,48 @@ public class Crep {
     private boolean filterInverted;
     private boolean ignoreCase;
 
+    Crep(boolean byRegex, boolean filterInverted, boolean ignoreCase) {
+        this.byRegex = byRegex;
+        this.filterInverted = filterInverted;
+        this.ignoreCase = ignoreCase;
+    }
+
     public List<String> read(File inputFile, String word) throws IOException {
         List<String> list = new ArrayList<>();
         BufferedReader bf = new BufferedReader(new FileReader(inputFile));
         String s = bf.readLine();
+        if (ignoreCase)
+            word = word.toLowerCase();
 
 
         if (byRegex) {
             while (s != null) {
-                if (s.matches(word)) {
+                if (ignoreCase ? Pattern.compile(word).matcher(s.toLowerCase()).find() : Pattern.compile(word).matcher(s).find() ^ filterInverted) {
                     list.add(s);
                 }
-                s = bf.readLine();
-
+                    s = bf.readLine();
             }
-
-
-        }
-        else {
-            while (s != null){
-                if (word.contains(s)) {
+        } else {
+            while (s != null) {
+                if ((ignoreCase ? s.toLowerCase().contains(word) : s.contains(word) ^ filterInverted)) {
                     list.add(s);
                 }
-                s = bf.readLine();
-
+                    s = bf.readLine();
             }
         }
-
-
-       return list;
+        return list;
     }
 
+    public void show(List<String> list) {
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i));
+        }
+    }
+
+
 }
+
+
 
 
 
