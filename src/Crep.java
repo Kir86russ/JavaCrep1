@@ -28,17 +28,23 @@ public class Crep {
 
         if (byRegex) {
             while (s != null) {
-                if (ignoreCase ? Pattern.compile(word).matcher(s.toLowerCase()).find() : Pattern.compile(word).matcher(s).find() ^ filterInverted) {
+                if (ignoreCase) {
+                    if (Pattern.compile(word).matcher(s.toLowerCase()).find() ^ filterInverted)
+                        list.add(s);
+                } else if (Pattern.compile(word).matcher(s).find() ^ filterInverted) {
                     list.add(s);
                 }
-                    s = bf.readLine();
+                s = bf.readLine();
             }
         } else {
             while (s != null) {
-                if ((ignoreCase ? s.toLowerCase().contains(word) : s.contains(word) ^ filterInverted)) {
+                if (ignoreCase) {
+                    if (s.toLowerCase().contains(word) ^ filterInverted)
+                        list.add(s);
+                } else if (s.contains(word) ^ filterInverted) {
                     list.add(s);
                 }
-                    s = bf.readLine();
+                s = bf.readLine();
             }
         }
         return list;

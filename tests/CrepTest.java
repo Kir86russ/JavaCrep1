@@ -1,4 +1,6 @@
 import static org.junit.Assert.*;
+
+import com.sun.scenario.effect.impl.sw.java.JSWBlend_SCREENPeer;
 import org.junit.Test;
 import java.io.*;
 import java.util.ArrayList;
@@ -59,5 +61,12 @@ public class CrepTest {
         List<String> suppplierNames = new ArrayList<String>();
         suppplierNames.add("Широкий простор для мечты и для жизни");
         assertEquals(suppplierNames, myCrep.read(new File("lol.txt"), "[а]"));
+    }
+
+    @Test
+    public void wordNothing() throws IOException {
+        Crep myCrep = new Crep(false, false, false);
+        List<String> supplierNames = new ArrayList<String>();
+        assertEquals(supplierNames, myCrep.read(new File("lol.txt"), "Америка"));
     }
 }
